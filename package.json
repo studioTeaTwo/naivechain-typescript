@@ -2,9 +2,9 @@
   "name": "naivechain-typescript",
   "version": "0.0.1",
   "description": "the typescript version of Naivechain",
-  "main": "index.ts",
+  "main": "main.ts",
   "scripts": {
-    "start": "tsc && node ./build/index.js",
+    "start": "tsc && node ./dist/main.js",
     "build": "tsc",
     "watch": "tsc -w"
   },
