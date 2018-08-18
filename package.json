@@ -1,0 +1,14 @@
+{
+  "name": "naivechain-typescript",
+  "version": "0.0.1",
+  "description": "the typescript version of naive-chain",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsc index.ts && node index.ts"
+  },
+  "author": "teatwo",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.0.1"
+  }
+}
