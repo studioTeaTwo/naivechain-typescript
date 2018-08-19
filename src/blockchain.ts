@@ -3,7 +3,7 @@ import CryptoJS from 'crypto-js';
 
 /* Blockchain Difiniton */
 
-type Block = {
+export type Block = {
   index: number;
   previousHash: string;
   timestamp: number;
@@ -44,28 +44,11 @@ export function generateNextBlock(blockData: string, blockchain: Blockchain): Bl
   );
 }
 
-export function addBlock(newBlock: Block, blockchain: Blockchain): Blockchain {
+export function addBlock(newBlock: Block, blockchain: Blockchain): void {
   if (isValidNewBlock(newBlock, getLatestBlock(blockchain))) {
-    return blockchain.concat([newBlock]);
+    blockchain.push(newBlock);
   }
-  return blockchain;
 };
-
-export function isValidChain(blockchainToValidate: Blockchain): boolean {
-  if (JSON.stringify(blockchainToValidate[0]) !== JSON.stringify(getGenesisBlock())) {
-      return false;
-  }
-  const tempBlocks = [blockchainToValidate[0]];
-  for (let i = 1; i < blockchainToValidate.length; i++) {
-      if (isValidNewBlock(blockchainToValidate[i], tempBlocks[i - 1])) {
-          tempBlocks.push(blockchainToValidate[i]);
-      } else {
-          return false;
-      }
-  }
-  return true;
-};
-
 
 function createBlock(
   index: number,
@@ -96,7 +79,22 @@ function calculateHash(index: number, previousHash: string, timestamp: number, d
   return CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
 };
 
-function isValidNewBlock(newBlock: Block, previousBlock: Block): boolean {
+export function isValidChain(blockchainToValidate: Blockchain): boolean {
+  if (JSON.stringify(blockchainToValidate[0]) !== JSON.stringify(getGenesisBlock())) {
+      return false;
+  }
+  const tempBlocks = [blockchainToValidate[0]];
+  for (let i = 1; i < blockchainToValidate.length; i++) {
+      if (isValidNewBlock(blockchainToValidate[i], tempBlocks[i - 1])) {
+          tempBlocks.push(blockchainToValidate[i]);
+      } else {
+          return false;
+      }
+  }
+  return true;
+};
+
+export function isValidNewBlock(newBlock: Block, previousBlock: Block): boolean {
   if (previousBlock.index + 1 !== newBlock.index) {
       console.log('invalid index');
       return false;

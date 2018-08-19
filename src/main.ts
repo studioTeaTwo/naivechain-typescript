@@ -1,8 +1,5 @@
-import {
-  initHttpServer,
-  initP2PServer,
-  connectToPeers,
-} from './server';
+import { initWebServer } from './web';
+import { initP2PServer, connectToPeers } from './p2p';
 
 declare const process: any;
 
@@ -11,5 +8,5 @@ const p2p_port: number = process.env.P2P_PORT || 6001;
 const initialPeers: string[] = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
 connectToPeers(initialPeers);
-initHttpServer(http_port);
+initWebServer(http_port);
 initP2PServer(p2p_port);
